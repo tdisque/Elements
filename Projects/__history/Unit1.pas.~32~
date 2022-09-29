@@ -1,0 +1,204 @@
+{*----------------------------------------------------------------------------
+ * Copyright January 2022
+ * Name: Elements
+ * Author: Tom Disque
+ * Purpose: To exercise some of the features of Delphi
+ *
+ * Notes: I retired in 2019 after 42 years of code development, but found that
+ *        I was restless after some months.  I decided I'd like to go back to
+ *        coding for a few more years, but realized that my skills were too
+ *        out of date.  I needed to learn C#, C++, Java, Python, Perl, and the
+ *        parts of the full stack that I didn't already know.
+ *
+ *        I started with C#, using the excellent book "Learn C# in one Day"
+ *        by Jamie Chan.  I knew from past experience with classes in Java
+ *        that if I didn't start coding in C# right away, I would forget what
+ *        I had learned, so I decided on this project.
+ *
+ *        Since my bachelor in science degree was a double major in chemistry
+ *        and computer science, I wanted a project that would involve both
+ *        disciplines.  I also wanted To exercise some of the features unique
+ *        to other languages as opposed to C.  This code is the result of that
+ *        effort.
+ *
+ *        The basic idea is the the player choose two elements to see if they
+ *        will combine with one another; for example, hydrogen combines with
+ *        oxygen to create water.  With later iterations, I will make it more
+ *        complicated, such as requiring the player to provide two hydrogen
+ *        atoms, one oxygen atom, and a spark of energy to cause the reaction
+ *        to take place.
+ *
+ *        Eventually, if all goes well, I can envision a sequel: Compounds,
+ *        which would deal with reactions beyond simple elements, such as
+ *        mixing sodium bicarbonate with vinegar to create sodium acetate,
+ *        carbon dioxide, and water.
+ *
+ *        It is my hope that high school students of chemistry and computer
+ *        science will  use this code as a starting point to create more
+ *        fun ways to learn.  Thus, I give my permission to any and all to
+ *        copy and modify this code in any way you wish.  I would love to
+ *        see a version of it using the the Unity or Unreal engines.
+ *
+ *        Converted to Delphi August 2022
+ ---------------------------------------------------------------------------*)
+}
+
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  IdStrings, Vcl.ToolWin, Vcl.ComCtrls;
+
+type
+  TElements = class(TForm)
+
+  ElementNames: TListBox;
+  Label1: TLabel;
+    ElementSelected: TRadioGroup;
+  Results: TListBox;
+  Label2: TLabel;
+  Button1: TButton;
+    ElementSymbols: TComboBox;
+    Instructions: TMemo;
+    Button2: TButton;
+    StatusBar1: TStatusBar;
+    ToolBar1: TToolBar;
+
+    procedure FormCreate(Sender: TObject);
+    procedure ElementNamesClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure ElementSymbolsClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+
+// No element has more than 10 oxidation states
+Const MAX_OXIDATION_STATES:integer = 10;
+      TOTAL_ELEMENTS:integer = 118;
+      PeriodicTable:TFilename =
+        'C:\Users\Public\Documents\periodic.csv';
+  end;
+
+{ Why do I get 'undefined' error messages when I use those first 2 constants
+  in an array declaration?
+  }
+
+type Oxidation = array[0..9] of integer;
+type arrayPtr  = array[0..117] of string;
+
+var
+  Elements: TElements;
+  Number:   array[0..117] of integer;        // Atomic number
+  Mass:     array[0..117] of double;         // Atomic number
+  OxyVals:  array[0..9, 0..117] of integer; // Oxidation states
+
+  { The selection numbers are always an index to the names, even
+    when the selection is made from the combobox.
+  }
+  ElementSelection:array[0..1] of integer;
+  AlphaSymSeq:  array[0..117] of Integer;
+  columns:  TstringList;
+
+implementation
+
+{$R *.dfm}
+
+procedure TElements.FormCreate(Sender: TObject);
+begin
+  var wholeRow:string;
+  var csvFile:TextFile;
+  var i, j:integer;
+
+  AssignFile(csvFile, PeriodicTable);
+  reset(csvFile);
+  columns := TStringList.Create;
+
+  i := 0;
+  while (not eof(csvFile)) do begin
+    // Read a whole row
+    readln(csvFile, wholeRow);
+
+    // Separate the row into its constituent columns:
+    // Atomic number, Symbol, Name, Atomic Weight, and ten oxidation
+    // states, from most negative to most positive.
+    ExtractStrings([','], [], PChar(wholeRow), columns);
+
+    Number[i] := columns.Strings[0].ToInteger;
+
+    // Symbols and Names are already set in the Listbox and combobox
+    // ElementSymbols.Items[i] := columns.Strings[1];
+    // ElementNames.Items[i]   := columns.Strings[2];
+
+    Mass[i] := columns.Strings[3].ToDouble;
+
+    for j := 4 to 12 do begin
+      OxyVals[j-4, i] := columns.Strings[j].ToInteger;
+      end;
+
+    { AlphaSymSeq is sequence numbers that correspond to the alphabetical
+      sequence of the element symbols. These help us access the name when we
+      only have the symbol.  To get from the symbol to the atomic number we
+      have to find the name first, because the atomic numbers were along for
+      the ride when the names were sorted.
+    }
+    AlphaSymSeq[i] := columns.Strings[13].ToInteger;
+    i := i + 1;
+    end;
+
+  closefile(csvFile);
+
+  end;
+
+// Exit button.  Time to quit!
+procedure TElements.Button2Click(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+procedure TElements.ElementNamesClick(Sender: TObject);
+begin
+  var i:integer := ElementSelected.ItemIndex; // -1, 0, or 1
+  var j:integer := ElementNames.ItemIndex;
+
+  case i of
+
+    // Index = -1 if we clicked on the listbox without first selecting the radiobox
+    -1: ShowMessage('First, select element 1 or element 2');
+
+     // Save the selected element name and index
+     0..1: begin
+        ElementSelection[i] := j;
+        ElementSelected.items[i] := ElementNames.Items.Strings[j];
+        end;
+
+     else ShowMessage('Unknown element button'); // Should never happenn
+     end;
+  end;
+
+procedure TElements.ElementSymbolsClick(Sender: TObject);
+begin
+  var i:integer := ElementSelected.ItemIndex; // -1, 0, or 1
+  var j:integer := AlphaSymSeq[ElementSymbols.ItemIndex];
+  // j now points to the name corresponding to the selected symbol
+
+  case i of
+
+    // Index = -1 if we clicked on the listbox without first selecting the radiobox
+    -1: ShowMessage('First, select element 1 or element 2');
+
+     // Save the selected element name and index
+     0..1: begin
+        ElementSelection[i] := j;
+        ElementSelected.items[i] :=
+         ElementNames.Items.Strings[j];
+        end;
+
+     else ShowMessage('Unknown element button'); // Should never happenn
+     end;
+
+end;
+
+end.

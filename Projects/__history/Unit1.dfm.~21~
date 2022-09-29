@@ -1,0 +1,364 @@
+object Elements: TElements
+  Left = 0
+  Top = 0
+  Caption = 'Elemental Combinations'
+  ClientHeight = 580
+  ClientWidth = 760
+  Color = clBtnFace
+  Font.Charset = ANSI_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -16
+  Font.Name = 'Franklin Gothic Medium'
+  Font.Style = [fsBold, fsItalic]
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 21
+  object Label1: TLabel
+    Left = 24
+    Top = 33
+    Width = 608
+    Height = 26
+    Alignment = taCenter
+    Caption = 'Elements in alphabetical order with corresponding symbols'
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -24
+    Font.Name = 'Times New Roman'
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 536
+    Top = 400
+    Width = 56
+    Height = 21
+    Alignment = taCenter
+    Caption = 'Results'
+  end
+  object ElementNames: TListBox
+    Left = 24
+    Top = 112
+    Width = 121
+    Height = 249
+    ItemHeight = 21
+    Items.Strings = (
+      'Actinium'
+      'Aluminum'
+      'Americium'
+      'Antimony'
+      'Argon'
+      'Arsenic'
+      'Astatine'
+      'Barium'
+      'Berkelium'
+      'Beryllium'
+      'Bismuth'
+      'Bohrium'
+      'Boron'
+      'Bromine'
+      'Cadmium'
+      'Calcium'
+      'Californium'
+      'Carbon'
+      'Cerium'
+      'Cesium'
+      'Chlorine'
+      'Chromium'
+      'Cobalt'
+      'Copernicium'
+      'Copper'
+      'Curium'
+      'Darmstadtium'
+      'Dubnium'
+      'Dysprosium'
+      'Einsteinium'
+      'Erbium'
+      'Europium'
+      'Fermium'
+      'Flerovium'
+      'Fluorine'
+      'Francium'
+      'Gadolinium'
+      'Gallium'
+      'Germanium'
+      'Gold'
+      'Hafnium'
+      'Hassium'
+      'Helium'
+      'Holmium'
+      'Hydrogen'
+      'Indium'
+      'Iodine'
+      'Iridium'
+      'Iron'
+      'Krypton'
+      'Lanthanum'
+      'Lawrencium'
+      'Lead'
+      'Lithium'
+      'Livermorium'
+      'Lutetium'
+      'Magnesium'
+      'Manganese'
+      'Meitnerium'
+      'Mendelevium'
+      'Mercury'
+      'Molybdenum'
+      'Moscovium'
+      'Neodymium'
+      'Neon'
+      'Neptunium'
+      'Nickel'
+      'Nihonium'
+      'Niobium'
+      'Nitrogen'
+      'Nobelium'
+      'Oganesson'
+      'Osmium'
+      'Oxygen'
+      'Palladium'
+      'Phosphorus'
+      'Platinum'
+      'Plutonium'
+      'Polonium'
+      'Potassium'
+      'Praseodymium'
+      'Promethium'
+      'Protactinium'
+      'Radium'
+      'Radon'
+      'Rhenium'
+      'Rhodium'
+      'Roentgenium'
+      'Rubidium'
+      'Ruthenium'
+      'Rutherfordium'
+      'Samarium'
+      'Scandium'
+      'Seaborgium'
+      'Selenium'
+      'Silicon'
+      'Silver'
+      'Sodium'
+      'Strontium'
+      'Sulfur'
+      'Tantalum'
+      'Technetium'
+      'Tellurium'
+      'Tennessine'
+      'Terbium'
+      'Thallium'
+      'Thorium'
+      'Thulium'
+      'Tin'
+      'Titanium'
+      'Tungsten'
+      'Uranium'
+      'Vanadium'
+      'Xenon'
+      'Ytterbium'
+      'Yttrium'
+      'Zinc'
+      'Zirconium')
+    TabOrder = 0
+    OnClick = ElementNamesClick
+  end
+  object ElementSymbols: TComboBox
+    Left = 263
+    Top = 441
+    Width = 145
+    Height = 29
+    TabOrder = 1
+    Text = 'ElementSymbols'
+    Items.Strings = (
+      'Ac'
+      'Ag'
+      'Al'
+      'Am'
+      'Ar'
+      'As'
+      'At'
+      'Au'
+      'B'
+      'Ba'
+      'Be'
+      'Bh'
+      'Bi'
+      'Bk'
+      'Br'
+      'C'
+      'Ca'
+      'Cd'
+      'Ce'
+      'Cf'
+      'Cl'
+      'Cm'
+      'Cn'
+      'Co'
+      'Cr'
+      'Cs'
+      'Cu'
+      'Db'
+      'Ds'
+      'Dy'
+      'Er'
+      'Es'
+      'Eu'
+      'F'
+      'Fe'
+      'Fl'
+      'Fm'
+      'Fr'
+      'Ga'
+      'Gd'
+      'Ge'
+      'H'
+      'He'
+      'Hf'
+      'Hg'
+      'Ho'
+      'Hs'
+      'I'
+      'In'
+      'Ir'
+      'K'
+      'Kr'
+      'La'
+      'Li'
+      'Lr'
+      'Lu'
+      'Lv'
+      'Mc'
+      'Md'
+      'Mg'
+      'Mn'
+      'Mo'
+      'Mt'
+      'N'
+      'Na'
+      'Nb'
+      'Nd'
+      'Ne'
+      'Nh'
+      'Ni'
+      'No'
+      'Np'
+      'O'
+      'Og'
+      'Os'
+      'P'
+      'Pa'
+      'Pb'
+      'Pd'
+      'Pm'
+      'Po'
+      'Pr'
+      'Pt'
+      'Pu'
+      'Ra'
+      'Rb'
+      'Re'
+      'Rf'
+      'Rg'
+      'Rh'
+      'Rn'
+      'Ru'
+      'S'
+      'Sb'
+      'Sc'
+      'Se'
+      'Sg'
+      'Si'
+      'Sm'
+      'Sn'
+      'Sr'
+      'Ta'
+      'Tb'
+      'Tc'
+      'Te'
+      'Th'
+      'Ti'
+      'Tl'
+      'Tm'
+      'Ts'
+      'U'
+      'V'
+      'W'
+      'Xe'
+      'Y'
+      'Yb'
+      'Zn'
+      'Zr')
+  end
+  object ElementSelected: TRadioGroup
+    Left = 24
+    Top = 441
+    Width = 137
+    Height = 120
+    Caption = 'Select Element'
+    Items.Strings = (
+      'Element1'
+      'Element2')
+    TabOrder = 2
+  end
+  object Results: TListBox
+    Left = 432
+    Top = 441
+    Width = 309
+    Height = 120
+    ItemHeight = 21
+    TabOrder = 3
+  end
+  object Button1: TButton
+    Left = 167
+    Top = 443
+    Width = 75
+    Height = 25
+    Caption = 'Combine'
+    TabOrder = 4
+  end
+  object Instructions: TMemo
+    Left = 200
+    Top = 112
+    Width = 541
+    Height = 249
+    Lines.Strings = (
+      'Instructions'
+      ''
+      'To select the first element, click on the Element1 button and '
+      'choose the full name of your element from the list to the left,'
+      'or choose the atomic symbol from the pulldown menu below.'
+      ''
+      'To select the second element, click on the Element2 button and '
+      'repeat the steps from above.'
+      ''
+      'Next, press the Combine button and view your compounds in the '
+      'Results box.')
+    TabOrder = 5
+  end
+  object Button2: TButton
+    Left = 167
+    Top = 522
+    Width = 75
+    Height = 25
+    Caption = 'Exit'
+    TabOrder = 6
+    OnClick = Button2Click
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 561
+    Width = 760
+    Height = 19
+    Panels = <>
+  end
+  object ToolBar1: TToolBar
+    Left = 0
+    Top = 0
+    Width = 760
+    Height = 29
+    Caption = 'ToolBar1'
+    TabOrder = 8
+  end
+end
